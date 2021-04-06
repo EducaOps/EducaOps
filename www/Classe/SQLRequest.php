@@ -4,8 +4,7 @@ namespace SQL;
 
 class SQLAccount
 {
-    public function VerifAccountOK($email, $password){
+    public function VerifAccountExist($email, $password){
         return true;
     }
-
 }
