@@ -6,9 +6,10 @@ $Action = new Action();
 
 session_start();
 
-if($_SERVER["REQUEST_URI"] == '/Vue/login.php'){
+if($_SERVER["REQUEST_URI"] == '/Vue/login.php' && !empty($_SESSION['email'])){
     $Action->RedirectToURL("/index.php");
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

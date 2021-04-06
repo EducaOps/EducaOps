@@ -1,5 +1,25 @@
-<form action="../Controller/login_control.php" method="GET">
-    <input type="email" name="email" value="" alt="Renseigner votre email..." />
-    <input type="password" name="password" value="" alt="Renseigner votre mot de passe..." />
-    <input type="submit" />
-</form>
+<div class="container-fluid">
+    <div class="row main-content text-center">
+        <div class="col-xs-12 col-sm-12 login_form ">
+            <div class="container-fluid">
+                <div class="mr-auto">
+                    <h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">
+                        <b>EducaOps</b>
+                    </h1>
+                    
+                </div>
+                <form action="../Controller/login_control.php" method="GET">
+                    <div class="row mt-4">
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Adresse email " />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Mot de passe"/>
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Connexion"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
