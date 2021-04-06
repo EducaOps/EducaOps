@@ -1,3 +1,7 @@
+<?php
+include 'session.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +13,8 @@
 <body>
     <h5>Salut</h5>
     <?php
-        echo "Bonjour PHP";
+        echo "Bonjour vous etes ?";
+        echo $_SESSION['email'];
     ?>
 </body>
 </html>
