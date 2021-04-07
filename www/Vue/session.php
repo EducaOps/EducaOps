@@ -1,5 +1,5 @@
 <?php
-require "./Classe/ActionPage.php";
+require "../Classe/ActionPage.php";
 use ActionPage\Action;
 
 $Action = new Action();
@@ -13,7 +13,11 @@ if(empty($_SESSION['email'])){
 else {
     echo $_SERVER['REQUEST_URI'];
     if($_SERVER["REQUEST_URI"] == '/Vue/login.php'){
-        $Action->RedirectToURL("/index.php");
+        $Action->RedirectToURL("/Vue/main.php");
+    }
+    
+    if($_SERVER["REQUEST_URI"] == '/index.php'){
+        
     }
 }
 
