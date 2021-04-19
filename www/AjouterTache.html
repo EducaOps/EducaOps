@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Modifier une tache</title>
+</head>
+<body>
+	<form action="ActionAjouterTache.php" method="POST">
+		<table>
+			<tr>
+				<td>Titre</td>
+				<td>
+					<input type="text" name="Titre" value="" size="40" maxlength="40"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Description</td>
+				<td>
+					<input type="text" name="Description" value="" size="40" maxlength="400"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Avancement</td>
+				<td>
+					<input type="number" name="Avancement" value="" size="1" maxlength="1"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					<input type="submit" name="Envoyer" value="Envoyer">
+					<input type="reset" name="Annuler" value="Annuler">
+					
+				</td>
+			</tr>
+		</table>
+	</form>
+	 <a href="ListeTache.php">Retour a la page précédente</a>
+
+</body>
+</html>

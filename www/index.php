@@ -1,5 +1,5 @@
 <?php
-include 'session.php';
+//include 'session.php';
 ?>
 
 <!DOCTYPE html>
@@ -12,9 +12,7 @@ include 'session.php';
 </head>
 <body>
     <h5>Salut</h5>
-    <?php
-        echo "Bonjour vous etes ?";
-        echo $_SESSION['email'];
-    ?>
+    <a href="ListeTache.php">Liste des taches</a>
+
 </body>
 </html>
