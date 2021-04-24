@@ -1,10 +1,9 @@
 <?php
-//include 'session.php';
 require "./Classe/ActionPage.php";
 use ActionPage\Action;
 
 $Action = new Action();
-$Action->RedirectToURL("/Vue/main.php");
+$Action->RedirectToURL("Vue/ListeTache.php");
 ?>
 
 
@@ -17,8 +16,6 @@ $Action->RedirectToURL("/Vue/main.php");
     <title>Document</title>
 </head>
 <body>
-    <h5>Salut</h5>
-    <a href="ListeTache.php">Liste des taches</a>
 
 </body>
 </html>
