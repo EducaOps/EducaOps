@@ -11,7 +11,7 @@ $Action = new Action();
 if($SQLAccount->VerifAccountExist($_REQUEST['email'], $_REQUEST['password'])){
     session_start();
     $_SESSION['email']=$_REQUEST['email'];
-    $Action->RedirectToURL("../index.php");
+    $Action->RedirectToURL("../Vue/ListeTache.php");
 }
 
 ?>

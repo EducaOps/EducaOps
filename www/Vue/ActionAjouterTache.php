@@ -1,6 +1,6 @@
 <?php
 include '../Controller/AjouterTacheController.php';
-//include "session.php";
+include "session.php";
 ?>
 <!DOCTYPE html>
 <html>

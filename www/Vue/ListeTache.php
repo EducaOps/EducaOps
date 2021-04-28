@@ -1,6 +1,5 @@
 <?php
 include '../Controller/ListeTacheController.php';
-include "session.php";
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +14,8 @@ include "session.php";
 	<?php
         include '../Model/Header.html';
     ?>
-<a class="btn btn-primary btn-lg" href="AjouterTache.php">ajouter une tache</a>
+<a class="btn btn-primary btn-lg ml-3" href="AjouterTache.php">ajouter une tache</a>
+<div class="container">
 <h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">Liste des taches en cours</h1>
 	<table class="table table-striped"><tr><th>Titre</th><th>Description</th><th>Modifier</th><th>Supprimer</th><tr>
    <?php
@@ -37,7 +37,7 @@ include "session.php";
  	  	}
 		?>
 	</table>
-
+	
 	<h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">Liste des taches en terminées</h1>
 	<table class="table table-striped"><tr><th>Titre</th><th>Description</th><th>Options</th>
    <?php
@@ -56,8 +56,10 @@ include "session.php";
  	  	}
 		?>
 	</table>
+	</div>
 	<?php
         include '../Model/Footer.html';
     ?>
 </body>
 </html>
+

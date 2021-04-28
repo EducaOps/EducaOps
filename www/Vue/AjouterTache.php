@@ -10,19 +10,20 @@
 <?php
         include '../Model/Header.html';
     ?>
+	<div class="container mb-3 mt-3">
 	<h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">Ajouter une tache</h1>
 	<form class="mt-4" action="ActionAjouterTache.php" method="POST">
 		<table class="table table-striped">
 			<tr>
 				<td>Titre</td>
 				<td>
-					<input type="text" name="Titre" value="" size="40" maxlength="40"/>
+					<input  class="form-control" type="text" name="Titre" value="" size="40" maxlength="40"/>
 				</td>
 			</tr>
 			<tr>
 				<td>Description</td>
 				<td>
-					<input type="text" name="Description" value="" size="40" maxlength="400"/>
+					<textarea class="form-control" rows="5" name="Description" id="comment"></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -30,6 +31,7 @@
 				<td>
 					<input type="radio" id="En Cours" name="Avancement" value="0"checked>
 					<label for="0">En Cours</label>
+					<br />
 					<input type="radio" id="Terminée" name="Avancement" value="1">
 					<label for="1">Terminée</label>
 				</td>
@@ -37,14 +39,15 @@
 			
 			<tr>
 				<td colspan="2">
-					<input class="btn btn-primary" type="submit" name="Envoyer" value="Envoyer">
-					<input class="btn btn-primary" type="reset" name="Annuler" value="Annuler">
+					<input class="btn btn-success" type="submit" name="Envoyer" value="Envoyer">
+					<input class="btn btn-danger" type="reset" name="Annuler" value="Annuler">
 					
 				</td>
 			</tr>
 		</table>
 	</form>
-	 <a class="btn btn-primary" href="ListeTache.php">Retour a la page précédente</a>
+	 <a class="btn btn-warning" href="ListeTache.php">Retour a la page précédente</a>
+	 </div>
 	 <?php
         include '../Model/Footer.html';
     ?>

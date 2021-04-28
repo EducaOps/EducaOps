@@ -1,6 +1,6 @@
 <?php
 include '../Controller/ModificationTacheController.php';
-//include "session.php";
+include "session.php";
 
 ?>
 
