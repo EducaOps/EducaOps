@@ -1,65 +1,210 @@
 <?php
+include 'session.php';
 include '../Controller/ListeTacheController.php';
+include '../Controller/ModificationTacheController.php';
+
+$tache_encours = TachesEnCour();
+$tache_fini = TachesFini();
+$tache_merge = array_merge($tache_encours, $tache_fini);
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8"/>
-	<title>Liste des taches</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <meta charset="utf-8"/>
+    <title>Liste des taches</title>
 </head>
 <body>
-	<?php
-        include '../Model/Header.html';
-    ?>
-<a class="btn btn-primary btn-lg ml-3" href="AjouterTache.php">ajouter une tache</a>
+<?php
+include '../Model/Header.php';
+
+?>
+<!-- Liste des taches -->
 <div class="container">
-<h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">Liste des taches en cours</h1>
-	<table class="table table-striped"><tr><th>Titre</th><th>Description</th><th>Modifier</th><th>Supprimer</th><tr>
-   <?php
-   		echo "Nombre de Taches : ".CountEnCour() . "<br/><br/>";
-   		foreach(TachesEnCour() as $value)
-   		{
-		   ?>
-		   <tr><td>
-			   <?php echo $value[1]; ?>
-		   </td><td>
-			   <?php echo $value[2]; ?>
-		   </td><td>
-			   <a href="ModificationTache.php?ID=<?php echo $value[0]?>" >Modifier</a> 
-		   </td>
-		   <td>
-			   <a href="ActionSupprimerTache.php?ID=<?php echo $value[0]?>" >Supprimer</a> 
-		   </td></tr>
-		   <?php
- 	  	}
-		?>
-	</table>
-	
-	<h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">Liste des taches en terminées</h1>
-	<table class="table table-striped"><tr><th>Titre</th><th>Description</th><th>Options</th>
-   <?php
-   		echo "Nombre de Taches : ".CountFini() . "<br/><br/>";
-   		foreach(TachesFini() as $value)
-   		{
-		   ?>
-		   <tr><td>
-			   <?php echo $value[1]; ?>
-		   </td><td>
-			   <?php echo $value[2]; ?>
-		   </td><td>
-			   <a href="ModificationTache.php?ID=<?php echo $value[0]?>" >Modifier</a> 
-		   </td></tr>
-		   <?php
- 	  	}
-		?>
-	</table>
-	</div>
-	<?php
-        include '../Model/Footer.html';
-    ?>
+    <div class="mt-5 d-flex">
+        <h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">Liste des taches en cours</h1>
+        <button class="btn btn-outline-warning btn-lg ml-3 ml-auto" data-toggle="modal" data-target="#myModal">Ajouter une tache</button>
+    </div>
+    <div class="mt-2 alert alert-warning p-1">
+        <?php echo "Nombre de Taches en cours : <b>" . CountEnCour() ."</b>" ?>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
+        </tr>
+        <?php foreach ($tache_encours as $value) { ?>
+                <tr>
+            <td>
+                <?php echo $value[1]; ?>
+            </td>
+            <td>
+                <?php echo $value[2]; ?>
+            </td>
+            <td>
+                <a class="btn btn-warning" data-toggle="modal" data-target="#<?php echo 'modif_tahce_'. $value[0] ?>">Modifier</a>
+            </td>
+            <td>
+                <a class="btn btn-outline-danger" href="ActionSupprimerTache.php?ID=<?php echo $value[0] ?>">Supprimer</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
+
+    <h1 class="p-0 m-0" style="font-size: 45px; color: #f9a328;">Liste des taches en terminées</h1>
+    <div class="mt-2 alert alert-success p-1">
+        <?php echo "Nombre de taches en terminées : <b>" . CountFini() ."</b>" ?>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Options</th>
+        <?php foreach ($tache_fini as $value) { ?>
+        <tr>
+            <td>
+                <?php echo $value[1]; ?>
+            </td>
+            <td>
+                <?php echo $value[2]; ?>
+            </td>
+            <td>
+                <a class="btn btn btn-warning" data-toggle="modal" data-target="#<?php echo 'modif_tahce_'. $value[0] ?>">Modifier</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
+</div>
+
+
+<!-- Formulaire d'ajout d'une tache -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h3 class="modal-title" style="color: #f9a328;">Ajouter une tache</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form class="m-0" action="ActionAjouterTache.php" method="POST">
+                    <table class="table table-striped m-0">
+                        <tr>
+                            <td>Titre</td>
+                            <td>
+                                <input  class="form-control" type="text" name="Titre" value="" size="40" maxlength="40" required/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>
+                                <textarea class="form-control" rows="15" name="Description" id="comment" required></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Avancement :</td>
+                            <td>
+                                <input type="radio" id="En Cours" name="Avancement" value="0"checked>
+                                <label for="0">En Cours</label>
+                                <br />
+                                <input type="radio" id="Terminée" name="Avancement" value="1">
+                                <label for="1">Terminée</label>
+                            </td>
+                        </tr>
+
+
+                    </table>
+                    <input class="mt-3 btn btn-outline-success form-control" type="submit" name="Envoyer" value="Enregistrer la tache">
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Formulaire de modification d'une tache -->
+<?php foreach ($tache_merge as $value) {?>
+<div class="modal fade" id="<?php echo 'modif_tahce_'. $value[0] ?>">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h3 class="modal-title" style="color: #f9a328;">Ajouter une tache</h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form class="m-0" action="ActionModifierTache.php?ID_Tache=<?php echo $value[0] ?>" method="POST">
+
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Titre</td>
+                            <td>
+                                <input class="form-control" type="text" name="Titre" value="<?php echo LaTache($value[0])['Titre_Tache'];?>" size="40" maxlength="40" required/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>
+                                <textarea class="form-control" type="text" rows="15" name="Description" required><?php echo  LaTache($value[0])['Description_Tache'];?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Avancement :</td>
+                            <td>
+                                <?php if (LaTache($value[0])['Avancement_Tache'])
+                                {?>
+                                    <input type="radio" id="En Cours" name="Avancement" value="0" >
+                                    <label for="0">En Cours</label>
+                                    <br />
+                                    <input type="radio" id="Terminée" name="Avancement" value="1" checked>
+                                    <label for="1">Terminée</label>
+                                    <?php
+                                }
+                                else
+                                {?>
+                                    <input type="radio" id="En Cours" name="Avancement" value="0"checked>
+                                    <label for="0">En Cours</label>
+                                    <br />
+                                    <input type="radio" id="Terminée" name="Avancement" value="1" >
+                                    <label for="1">Terminée</label>
+                                    <?php
+                                } ?>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <input class="mt-3 btn btn-success form-control" type="submit" name="Envoyer" value="Enregistrer la tache">
+                    <input class="mt-3 btn btn-outline-info form-control" type="reset" name="reset" value="Annuler les modifications">
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php
+include '../Model/Footer.html';
+?>
 </body>
 </html>
 
