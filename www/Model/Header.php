@@ -12,9 +12,9 @@
                 'Bonjour ' . $_SESSION['email'] .
             '</div>' .
             '<div class="p-2">' .
-                '<button class="btn btn-warning">' .
+                '<a class="btn btn-warning" href="../Vue/ActionDeconnexion.php">' .
                     'Deconnexion' .
-                ' </button>' .
+                ' </a>' .
             '</div>';
     }
     ?>
