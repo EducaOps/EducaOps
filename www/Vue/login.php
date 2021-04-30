@@ -1,13 +1,12 @@
 <?php
+session_start();
 require "../Classe/ActionPage.php";
 use ActionPage\Action;
 
 $Action = new Action();
 
-session_start();
-
-if($_SERVER["REQUEST_URI"] == '/Vue/login.php' && !empty($_SESSION['email'])){
-    $Action->RedirectToURL("/index.php");
+if($_SERVER["REQUEST_URI"] == 'login.php' && isset($_SESSION['email'])){
+    $Action->RedirectToURL("../index.php");
 }
 
 ?>
@@ -24,7 +23,9 @@ if($_SERVER["REQUEST_URI"] == '/Vue/login.php' && !empty($_SESSION['email'])){
 </head>
 <body>
     <?php
+        include '../Model/Header.php';
         include '../Model/login_form.html';
+        include '../Model/Footer.html';
     ?>
 </body>
 </html>
