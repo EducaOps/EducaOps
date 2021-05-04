@@ -43,7 +43,6 @@ function ModifierTache($UnId, $UnTitre,$UneDescription, $UnAvancement)
 			$resultat->bindParam(':Avancement', $UnAvancement);
 			$resultat->bindParam(':ID', $UnId);
 			$resultat->execute();
-			$resultat ->closeCursor();
 		}
 		catch(Exeption $erreur)
 		{
