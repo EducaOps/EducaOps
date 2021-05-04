@@ -3,7 +3,6 @@ require "../Classe/SQLRequest.php";
 require "../Classe/ActionPage.php";
 
 use ActionPage\Action;
-use SQLAccount;
 
 $SQLAccount = new SQLAccount();
 $Action = new Action();
