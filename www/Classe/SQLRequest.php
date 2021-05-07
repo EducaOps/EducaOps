@@ -2,21 +2,22 @@
 
 class SQLAccount
 {
-    public function VerifAccountExist($email, $password){
+    public function VerifAccountExist($email, $motdepasse){
 
         try 
-        {  	 	 
+        {
+            $response = [];
             $base = new PDO('mysql:host=db;dbname=BD_EducaOps', 'root', 'root');
             $base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            //$sql = 'INSERT INTO tache (Titre_Tache, Description_Tache, Avancement_Tache) VALUES (:Titre, :Description, :Avancement)	';
+            $sql = 'CALL GetUtilisateurEducaOps(:Email, :MotDePasse)';
             try
             {
-                //$resultat = $base->prepare($sql);
-                //$resultat->bindParam(':Titre', $UnTitre);
-                //$resultat->bindParam(':Description', $UneDescription);
-                //$resultat->bindParam(':Avancement', $UnAvancement);
-                //$resultat->execute();
-                //$resultat ->closeCursor();
+                $resultat = $base->prepare($sql);
+                $resultat->bindParam(':Email', $email);
+                $resultat->bindParam(':MotDePasse', $motdepasse);
+                $resultat->execute();
+                $response = $resultat->fetchAll();
+                $resultat ->closeCursor();
             }
             catch(Exeption $erreur)
             {
@@ -27,7 +28,7 @@ class SQLAccount
         {
             die('Erreur de conenction a la bd : '  . $erreur->getMessage());
         }
-        
-        return true;
+
+        return array_values($response[0])[0] == 1;
     }
 }
