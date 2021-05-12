@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mer. 12 mai 2021 à 14:12
+-- Généré le : mer. 12 mai 2021 à 14:44
 -- Version du serveur :  8.0.23
 -- Version de PHP : 7.4.16
 
@@ -65,6 +65,17 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `Assigner`
+--
+
+CREATE TABLE `Assigner` (
+  `UtiEmail` varchar(100) NOT NULL,
+  `IdTache` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `tache`
 --
 
@@ -84,10 +95,9 @@ INSERT INTO `tache` (`ID_Tache`, `Titre_Tache`, `Description_Tache`, `Avancement
 (21, 'C\'est juste une idée', 'Bienvenue pour cette idée', 0),
 (22, 'Encore un bug', 'Le bug doit étres résolu', 0),
 (24, 'Faire un MCD', 'Compléter la description avec un MLD', 1),
-(25, 'Faire un devis pour des serveurs', 'Il nous faut un serveur capable d\'utiliser des technologie web et des base de données relationnel c\'est comme ça que sa marche bien', 1),
+(25, 'Faire un devis pour des serveurs', 'Il nous faut un serveur capable d\'utiliser des technologie web et des base de données relationnel c\'est comme ça que sa marche bien', 0),
 (26, 'Finir la documentation technique', 'La doc et bien finie', 1),
-(27, 'Faire une maquette du projet', 'Maquette OK', 1),
-(30, 'bobobob', 'dbobobobob', 1);
+(27, 'Faire une maquette du projet', 'Maquette OK', 1);
 
 -- --------------------------------------------------------
 
@@ -114,10 +124,23 @@ INSERT INTO `Utilisateur` (`UtiNomComplet`, `UtiGroupe`, `UtiEmail`, `UtiMotDePa
 --
 
 --
+-- Index pour la table `Assigner`
+--
+ALTER TABLE `Assigner`
+  ADD PRIMARY KEY (`UtiEmail`,`IdTache`),
+  ADD KEY `FK_ASSIGNER_TACHE` (`IdTache`);
+
+--
 -- Index pour la table `tache`
 --
 ALTER TABLE `tache`
   ADD PRIMARY KEY (`ID_Tache`);
+
+--
+-- Index pour la table `Utilisateur`
+--
+ALTER TABLE `Utilisateur`
+  ADD PRIMARY KEY (`UtiEmail`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -128,6 +151,17 @@ ALTER TABLE `tache`
 --
 ALTER TABLE `tache`
   MODIFY `ID_Tache` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `Assigner`
+--
+ALTER TABLE `Assigner`
+  ADD CONSTRAINT `FK_ASSIGNER_TACHE` FOREIGN KEY (`IdTache`) REFERENCES `tache` (`ID_Tache`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_ASSIGNER_UTILISATEUR` FOREIGN KEY (`UtiEmail`) REFERENCES `Utilisateur` (`UtiEmail`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
