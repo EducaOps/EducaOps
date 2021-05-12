@@ -6,7 +6,7 @@ function SupprimerTache($UnId)
 	{  	 	 
 		$base = new PDO('mysql:host=db;dbname=BD_EducaOps', 'root', 'root');
 		$base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		$sql = 'DELETE From tache WHERE ID_Tache = :ID	';
+		$sql = 'CALL Supression_Tache(:ID)	';
 		try
 		{
 			$resultat = $base->prepare($sql);

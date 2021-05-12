@@ -7,7 +7,7 @@ function AjouterTache($UnTitre,$UneDescription, $UnAvancement)
 	{  	 	 
 		$base = new PDO('mysql:host=db;dbname=BD_EducaOps', 'root', 'root');
 		$base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		$sql = 'INSERT INTO tache (Titre_Tache, Description_Tache, Avancement_Tache) VALUES (:Titre, :Description, :Avancement)	';
+		$sql = 'CALL Insertion_Tache(:Titre, :Description, :Avancement)	';
 		try
 		{
 			$resultat = $base->prepare($sql);

@@ -9,7 +9,7 @@
 		$base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		try
 		{
-			$resultat = $base->query('SELECT ID_Tache, Titre_Tache, Description_Tache FROM tache where Avancement_Tache = 0');
+			$resultat = $base->query('CALL Tache_En_Cour');
 			$ArrayEnCour = $resultat->FetchAll();
 		    //fermeture de la rq
 		    $resultat ->closeCursor();
@@ -35,7 +35,7 @@
          $base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
          try
          {
-             $resultat = $base->query('SELECT ID_Tache, Titre_Tache, Description_Tache FROM tache where Avancement_Tache = 0');
+             $resultat = $base->query('CALL Tache_En_Cour');
              $nombreTachesEnCour = $resultat->rowCount();
              $resultat ->closeCursor();
          }
@@ -60,7 +60,7 @@
          $base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
          try
          {
-             $resultat = $base->query('SELECT ID_Tache, Titre_Tache, Description_Tache FROM tache where Avancement_Tache = 1');
+             $resultat = $base->query('CALL Tache_Fini');
              $ArrayFini = $resultat->fetchAll();
              $resultat ->closeCursor();
          }
@@ -84,7 +84,7 @@
          $base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
          try
          {
-             $resultat = $base->query('SELECT ID_Tache, Titre_Tache, Description_Tache FROM tache where Avancement_Tache = 1');
+             $resultat = $base->query('CALL Tache_Fini');
              $nombreTachesFini = $resultat->rowCount();
 
              $resultat ->closeCursor();

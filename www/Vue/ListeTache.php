@@ -210,8 +210,6 @@ $tache_merge = array_merge($tache_encours, $tache_fini);
 
                         <input class="mt-3 btn btn-success form-control" type="submit" name="Envoyer"
                                value="Enregistrer la tache">
-                        <input class="mt-3 btn btn-outline-info form-control" type="reset" name="reset"
-                               value="Annuler les modifications">
                     </form>
                 </div>
 

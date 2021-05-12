@@ -34,7 +34,7 @@ function ModifierTache($UnId, $UnTitre,$UneDescription, $UnAvancement)
 	{  	 	 
 		$base = new PDO('mysql:host=db;dbname=BD_EducaOps', 'root', 'root');
 		$base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		$sql = 'UPDATE tache  SET Titre_Tache = :Titre, Description_Tache = :Description, Avancement_Tache = :Avancement WHERE ID_Tache = :ID	';
+		$sql = 'CALL Modification_Tache(:ID, :Titre, :Description, :Avancement)';		
 		try
 		{
 			$resultat = $base->prepare($sql);
