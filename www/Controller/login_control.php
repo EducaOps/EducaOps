@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../Classe/SQLRequest.php";
+require "../Classe/SQLAccount.php";
 require "../Classe/ActionPage.php";
 
 use ActionPage\Action;

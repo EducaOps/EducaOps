@@ -6,7 +6,7 @@ include '../Controller/ModificationTacheController.php';
 $tache_encours = TachesEnCour();
 $tache_fini = TachesFini();
 $tache_merge = array_merge($tache_encours, $tache_fini);
-
+$utilisateurs = ListeUtilisateur();
 ?>
 
 <!DOCTYPE html>
@@ -135,15 +135,13 @@ $tache_merge = array_merge($tache_encours, $tache_fini);
                             <td>Assigner un élèves</td>
                             <td>
                                 <select class="custom-select">
-                                    <option>
-                                        Eleves1
-                                    </option>
-                                    <option>
-                                        Eleves1
-                                    </option>
-                                    <option>
-                                        Eleves1
-                                    </option>
+                                <?php foreach ($utilisateurs as $value) 
+                                {
+                                    echo '<option>';
+                                    echo $value[0] . " - " . $value[1];
+                                    echo '</option>';
+                                }
+                                ?>
                                 </select>
                             </td>
                         </tr>

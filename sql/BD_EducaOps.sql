@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mer. 12 mai 2021 à 18:02
+-- Généré le : mer. 12 mai 2021 à 18:35
 -- Version du serveur :  8.0.23
--- Version de PHP : 7.4.16
+-- Version de PHP : 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,12 +27,9 @@ DELIMITER $$
 --
 -- Procédures
 --
-CREATE DEFINER=`root`@`%` PROCEDURE `GetUtilisateurEducaOps` (IN `EmailUtilisateur` VARCHAR(100), IN `MotDePasse` VARCHAR(100))  BEGIN
-    SELECT UtiGroupe FROM Utilisateur
-        WHERE
-              UtiEmail = EmailUtilisateur
-                AND
-              UtiMotDePasse = MotDePasse;
+CREATE DEFINER=`root`@`%` PROCEDURE `GetUtilisateurEducaOps` ()  BEGIN
+    SELECT U.UtiNomComplet , RU.NomRole FROM Utilisateur U INNER JOIN RoleUtilisateur RU
+ON U.UtiRole = RU.IDRole;
 END$$
 
 CREATE DEFINER=`root`@`%` PROCEDURE `Insertion_Tache` (IN `P_Titre_Tache` CHAR(40), `P_Description_Tache` CHAR(250), `P_Avancement_Tache` INT)  BEGIN
@@ -76,6 +73,26 @@ CREATE TABLE `Assigner` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `RoleUtilisateur`
+--
+
+CREATE TABLE `RoleUtilisateur` (
+  `IDRole` int NOT NULL,
+  `NomRole` varchar(38) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `RoleUtilisateur`
+--
+
+INSERT INTO `RoleUtilisateur` (`IDRole`, `NomRole`) VALUES
+(0, 'Admin'),
+(1, 'Profésseur'),
+(2, 'Elève');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `tache`
 --
 
@@ -107,7 +124,7 @@ INSERT INTO `tache` (`ID_Tache`, `Titre_Tache`, `Description_Tache`, `Avancement
 
 CREATE TABLE `Utilisateur` (
   `UtiNomComplet` varchar(100) NOT NULL,
-  `UtiGroupe` int NOT NULL,
+  `UtiRole` int NOT NULL,
   `UtiEmail` varchar(100) NOT NULL,
   `UtiMotDePasse` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -116,8 +133,8 @@ CREATE TABLE `Utilisateur` (
 -- Déchargement des données de la table `Utilisateur`
 --
 
-INSERT INTO `Utilisateur` (`UtiNomComplet`, `UtiGroupe`, `UtiEmail`, `UtiMotDePasse`) VALUES
-('AntoninL', 0, 'antonin.lemoine@gmail.com', '123');
+INSERT INTO `Utilisateur` (`UtiNomComplet`, `UtiRole`, `UtiEmail`, `UtiMotDePasse`) VALUES
+('AntoninL', 1, 'antonin.lemoine@gmail.com', '123');
 
 --
 -- Index pour les tables déchargées
@@ -131,6 +148,12 @@ ALTER TABLE `Assigner`
   ADD KEY `FK_ASSIGNER_TACHE` (`IdTache`);
 
 --
+-- Index pour la table `RoleUtilisateur`
+--
+ALTER TABLE `RoleUtilisateur`
+  ADD PRIMARY KEY (`IDRole`);
+
+--
 -- Index pour la table `tache`
 --
 ALTER TABLE `tache`
@@ -140,11 +163,18 @@ ALTER TABLE `tache`
 -- Index pour la table `Utilisateur`
 --
 ALTER TABLE `Utilisateur`
-  ADD PRIMARY KEY (`UtiEmail`);
+  ADD PRIMARY KEY (`UtiEmail`),
+  ADD KEY `FK_UTILISATEUR_ROLE` (`UtiRole`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `RoleUtilisateur`
+--
+ALTER TABLE `RoleUtilisateur`
+  MODIFY `IDRole` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `tache`
@@ -162,6 +192,12 @@ ALTER TABLE `tache`
 ALTER TABLE `Assigner`
   ADD CONSTRAINT `FK_ASSIGNER_TACHE` FOREIGN KEY (`IdTache`) REFERENCES `tache` (`ID_Tache`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `FK_ASSIGNER_UTILISATEUR` FOREIGN KEY (`UtiEmail`) REFERENCES `Utilisateur` (`UtiEmail`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `Utilisateur`
+--
+ALTER TABLE `Utilisateur`
+  ADD CONSTRAINT `FK_UTILISATEUR_ROLE` FOREIGN KEY (`UtiRole`) REFERENCES `RoleUtilisateur` (`IDRole`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

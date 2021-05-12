@@ -101,4 +101,31 @@
      return $nombreTachesFini;
 
  }
+
+ //Liste des utilisateur
+ function ListeUtilisateur()
+ {
+    $ListeUtilisateur;
+    try {  	 	 
+		$base = new PDO('mysql:host=db;dbname=BD_EducaOps', 'root', 'root');
+		
+		$base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+		try
+		{
+			$resultat = $base->query('CALL GetUtilisateurEducaOps');
+			$ListeUtilisateur = $resultat->FetchAll();
+		    //fermeture de la rq
+		    $resultat ->closeCursor();
+		}
+		catch(Exeption $erreur)
+		{
+			echo $erreur->getMessage();
+		}
+	}
+	catch (Exeption $erreur)
+	{
+		echo 'Erreur de connexion a la bd : '  . $erreur->getMessage();
+	}
+    return $ListeUtilisateur;
+}
 ?>
