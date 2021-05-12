@@ -42,20 +42,26 @@ $tache_merge = array_merge($tache_encours, $tache_fini);
                         </td>
 
                         <td>
+                        
                             <div class="d-flex justify-content-end">
+                            
                                 <a class="btn btn-warning mr-2" data-toggle="modal"
                                    data-target="#<?php echo 'modif_tahce_' . $value[0] ?>">Modifier</a>
+                            <?php if($professeur) { ?>
                                 <a class="btn btn-outline-danger"
                                    href="ActionSupprimerTache.php?ID=<?php echo $value[0] ?>">Supprimer</a>
+                            <?php } ?>
                             </div>
                         </td>
                     </tr>
                 <?php } ?>
                 </tbody>
             </table>
+        <?php if($professeur) { ?>
         <button class="btn btn-sm btn-outline-success p-2" data-toggle="modal" data-target="#myModal">
             Ajouter une tache
         </button>
+        <?php } ?>
     </div>
 
     <div class="flex-fill w-100 m-5">
@@ -123,6 +129,22 @@ $tache_merge = array_merge($tache_encours, $tache_fini);
                             <td>
                                 <textarea class="form-control" rows="15" name="Description" id="comment"
                                           required></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Assigner un élèves</td>
+                            <td>
+                                <select class="custom-select">
+                                    <option>
+                                        Eleves1
+                                    </option>
+                                    <option>
+                                        Eleves1
+                                    </option>
+                                    <option>
+                                        Eleves1
+                                    </option>
+                                </select>
                             </td>
                         </tr>
                         <tr>

@@ -7,10 +7,10 @@ use ActionPage\Action;
 
 $SQLAccount = new SQLAccount();
 $Action = new Action();
-
-
-if($SQLAccount->VerifAccountExist($_REQUEST['email'], $_REQUEST['password'])){
+$result = $SQLAccount->VerifAccountExist($_REQUEST['email'], $_REQUEST['password']);
+if($result){
     $_SESSION['email']=$_REQUEST['email'];
+    $_SESSION['role']=$result[0][0];
     $Action->RedirectToURL("../Vue/ListeTache.php");
 }
 else{

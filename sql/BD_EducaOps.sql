@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mer. 12 mai 2021 à 14:44
+-- Généré le : mer. 12 mai 2021 à 18:02
 -- Version du serveur :  8.0.23
 -- Version de PHP : 7.4.16
 
@@ -27,8 +27,8 @@ DELIMITER $$
 --
 -- Procédures
 --
-CREATE DEFINER=`root`@`%` PROCEDURE `GetUtilisateurEducaOps` (`EmailUtilisateur` VARCHAR(100), `MotDePasse` VARCHAR(100))  BEGIN
-    SELECT COUNT(*) FROM Utilisateur
+CREATE DEFINER=`root`@`%` PROCEDURE `GetUtilisateurEducaOps` (IN `EmailUtilisateur` VARCHAR(100), IN `MotDePasse` VARCHAR(100))  BEGIN
+    SELECT UtiGroupe FROM Utilisateur
         WHERE
               UtiEmail = EmailUtilisateur
                 AND
@@ -117,7 +117,7 @@ CREATE TABLE `Utilisateur` (
 --
 
 INSERT INTO `Utilisateur` (`UtiNomComplet`, `UtiGroupe`, `UtiEmail`, `UtiMotDePasse`) VALUES
-('AntoninL', 1, 'antonin.lemoine@gmail.com', '123');
+('AntoninL', 0, 'antonin.lemoine@gmail.com', '123');
 
 --
 -- Index pour les tables déchargées

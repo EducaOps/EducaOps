@@ -28,7 +28,10 @@ class SQLAccount
         {
             die('Erreur de conenction a la bd : '  . $erreur->getMessage());
         }
-
-        return array_values($response[0])[0] == 1;
+        
+        if(count($response) == 1){
+            return $response;
+        }
+        return false;
     }
 }
