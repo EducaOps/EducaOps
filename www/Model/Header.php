@@ -8,10 +8,10 @@
     <?php
     if(isset($_SESSION['email'])){
         echo
-            '<div class="p-2 ml-auto">' .
-                'Bonjour ' . $_SESSION['email'] .
+            '<div class="p-2 ml-auto mb-auto mt-auto">' .
+                'Bonjour <b>' . $_SESSION['NomComplet'] . '</b>' . ' vous êtes un <b>' . $_SESSION['role_libelle'] . '</b>' .
             '</div>' .
-            '<div class="p-2">' .
+            '<div class="p-2 mb-auto mt-auto">' .
                 '<a class="btn btn-warning" href="../Vue/ActionDeconnexion.php">' .
                     'Deconnexion' .
                 ' </a>' .

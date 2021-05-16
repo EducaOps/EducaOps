@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : mer. 12 mai 2021 à 18:35
+-- Généré le : dim. 16 mai 2021 à 13:58
 -- Version du serveur :  8.0.23
 -- Version de PHP : 7.4.15
 
@@ -30,6 +30,20 @@ DELIMITER $$
 CREATE DEFINER=`root`@`%` PROCEDURE `GetUtilisateurEducaOps` ()  BEGIN
     SELECT U.UtiNomComplet , RU.NomRole FROM Utilisateur U INNER JOIN RoleUtilisateur RU
 ON U.UtiRole = RU.IDRole;
+END$$
+
+CREATE DEFINER=`root`@`%` PROCEDURE `GetVerifUtilisateurExist` (`EmailUtilisateur` VARCHAR(100), `MotDePasse` VARCHAR(100))  BEGIN
+    SELECT
+        U.UtiNomComplet,
+        RU.NomRole,
+        U.UtiRole
+
+    FROM Utilisateur U INNER JOIN RoleUtilisateur RU
+    ON U.UtiRole = RU.IDRole
+    WHERE
+            UtiEmail = EmailUtilisateur
+      AND
+            UtiMotDePasse = MotDePasse;
 END$$
 
 CREATE DEFINER=`root`@`%` PROCEDURE `Insertion_Tache` (IN `P_Titre_Tache` CHAR(40), `P_Description_Tache` CHAR(250), `P_Avancement_Tache` INT)  BEGIN
@@ -87,7 +101,7 @@ CREATE TABLE `RoleUtilisateur` (
 
 INSERT INTO `RoleUtilisateur` (`IDRole`, `NomRole`) VALUES
 (0, 'Admin'),
-(1, 'Profésseur'),
+(1, 'Professeur'),
 (2, 'Elève');
 
 -- --------------------------------------------------------
@@ -134,7 +148,7 @@ CREATE TABLE `Utilisateur` (
 --
 
 INSERT INTO `Utilisateur` (`UtiNomComplet`, `UtiRole`, `UtiEmail`, `UtiMotDePasse`) VALUES
-('AntoninL', 1, 'antonin.lemoine@gmail.com', '123');
+('AntoninL', 0, 'antonin.lemoine@gmail.com', '123');
 
 --
 -- Index pour les tables déchargées

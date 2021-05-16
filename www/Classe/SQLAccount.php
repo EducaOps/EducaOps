@@ -6,10 +6,9 @@ class SQLAccount
 
         try 
         {
-            $response = [];
             $base = new PDO('mysql:host=db;dbname=BD_EducaOps', 'root', 'root');
             $base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-            $sql = 'CALL GetUtilisateurEducaOps(:Email, :MotDePasse)';
+            $sql = 'CALL GetVerifUtilisateurExist(:Email, :MotDePasse)';
             try
             {
                 $resultat = $base->prepare($sql);
