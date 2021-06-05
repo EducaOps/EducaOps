@@ -14,7 +14,7 @@ include '../Controller/AjouterTacheController.php';
 
 
 <?php
-AjouterTache($_REQUEST["Titre"],$_REQUEST["Description"],$_REQUEST["Avancement"]);
+AjouterTache($_REQUEST["Titre"],$_REQUEST["Description"],$_REQUEST["Avancement"], $_REQUEST["User"]);
 use ActionPage\Action;
 $Action = new Action();
 $Action->RedirectToURL("ListeTache.php");

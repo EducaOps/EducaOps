@@ -1,19 +1,19 @@
 <?php
 //creer fonction ajout tache
-
-function AjouterTache($UnTitre,$UneDescription, $UnAvancement)
+function AjouterTache($UnTitre,$UneDescription, $UnAvancement, $UnMail)
 {
 	try 
 	{  	 	 
 		$base = new PDO('mysql:host=db;dbname=BD_EducaOps', 'root', 'root');
 		$base->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		$sql = 'CALL Insertion_Tache(:Titre, :Description, :Avancement)	';
+		$sql = 'CALL Insertion_Tache(:Titre, :Description, :Avancement, :UnMail)	';
 		try
 		{
 			$resultat = $base->prepare($sql);
 			$resultat->bindParam(':Titre', $UnTitre);
 			$resultat->bindParam(':Description', $UneDescription);
 			$resultat->bindParam(':Avancement', $UnAvancement);
+			$resultat->bindParam(':UnMail', $UnMail);
 			$resultat->execute();
 			$resultat ->closeCursor();
 		}

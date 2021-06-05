@@ -7,6 +7,8 @@ $tache_encours = TachesEnCour();
 $tache_fini = TachesFini();
 $tache_merge = array_merge($tache_encours, $tache_fini);
 $utilisateurs = ListeUtilisateur();
+$tache_eleve_encours = TachesEleveEnCour($_SESSION['email']);
+$tache_eleve_fini =  TachesEleveFini($_SESSION['email']);
 ?>
 
 <!DOCTYPE html>
@@ -16,23 +18,25 @@ $utilisateurs = ListeUtilisateur();
     <title>Liste des taches</title>
 </head>
 <body>
-<?php include '../Model/Header.php'; ?>
-<!-- Liste des taches -->
-<div class=" d-flex ">
+<?php include '../Model/Header.php'; 
+if($eleves)
+{?>
+    <div class=" d-flex ">
     <div class="flex-fill w-100 m-5">
         <h1 class="" style="font-size: 45px; color: #f9a328;">Liste des taches en cours</h1>
         <div class="mt-2 alert alert-warning p-1 ">
-            <?php echo "Nombre de Taches en cours : <b>" . CountEnCour() . "</b>" ?>
+            <?php echo "Nombre de Taches en cours : <b>" . CountEleveEnCour($_SESSION['email']) . "</b>" ?>
         </div>
-
             <table class="table table-striped">
                 <thead>
                 <th>Titre</th>
                 <th>Description</th>
+
                 <th></th>
                 </thead>
                 <tbody>
-                <?php foreach ($tache_encours as $value) { ?>
+                <?php foreach ($tache_eleve_encours as $value) 
+                { ?>
                     <tr>
                         <td>
                             <?php echo $value[1]; ?>
@@ -40,28 +44,100 @@ $utilisateurs = ListeUtilisateur();
                         <td>
                             <?php echo $value[2]; ?>
                         </td>
-
                         <td>
-                        
                             <div class="d-flex justify-content-end">
                             
                                 <a class="btn btn-warning mr-2" data-toggle="modal"
                                    data-target="#<?php echo 'modif_tahce_' . $value[0] ?>">Modifier</a>
-                            <?php if($professeur) { ?>
-                                <a class="btn btn-outline-danger"
-                                   href="ActionSupprimerTache.php?ID=<?php echo $value[0] ?>">Supprimer</a>
-                            <?php } ?>
                             </div>
                         </td>
                     </tr>
                 <?php } ?>
                 </tbody>
             </table>
-        <?php if($professeur) { ?>
+    </div>
+
+    <div class="flex-fill w-100 m-5">
+        <h1 class=" text-success" style="font-size: 45px;">Liste des taches terminées</h1>
+        <div class="mt-2 alert alert-success p-1">
+            <?php echo "Nombre de taches en terminées : <b>" .  CountEleveFini($_SESSION['email']) . "</b>" ?>
+                </div>
+            <table class="table table-striped ">
+                <thead>
+                <th>Titre</th>
+                <th>Description</th>
+                <th></th>
+                </thead>
+                <tbody>
+                <?php foreach ($tache_eleve_fini as $value) 
+                { ?>
+                    <tr>
+                        <td>
+                            <?php echo $value[1]; ?>
+                        </td>
+                        <td>
+                            <?php echo $value[2]; ?>
+                        </td>>
+                        <td>
+                            <a class="btn btn btn-warning" data-toggle="modal"
+                            data-target="#<?php echo 'modif_tahce_' . $value[0] ?>">Modifier</a>
+                        </td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+    </div>
+
+</div>
+<?php
+}
+if($professeur)
+{?>
+
+<!-- Liste des taches -->
+<div class=" d-flex ">
+    <div class="flex-fill w-100 m-5">
+        <h1 class="" style="font-size: 45px; color: #f9a328;">Liste des taches en cours</h1>
+        <div class="mt-2 alert alert-warning p-1 ">
+            <?php echo "Nombre de Taches en cours : <b>" . CountEnCour() . "</b>" ?>
+        </div>
+            <table class="table table-striped">
+                <thead>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Élève</th>
+                <th></th>
+                </thead>
+                <tbody>
+                <?php foreach ($tache_encours as $value) 
+                { ?>
+                    <tr>
+                        <td>
+                            <?php echo $value[1]; ?>
+                        </td>
+                        <td>
+                            <?php echo $value[2]; ?>
+                        </td>
+                        <td>
+                            <?php echo $value[3]; ?>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                            
+                                <a class="btn btn-warning mr-2" data-toggle="modal"
+                                   data-target="#<?php echo 'modif_tahce_' . $value[0] ?>">Modifier</a>
+                                <a class="btn btn-outline-danger"
+                                   href="ActionSupprimerTache.php?ID=<?php echo $value[0] ?>">Supprimer</a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        
         <button class="btn btn-sm btn-outline-success p-2" data-toggle="modal" data-target="#myModal">
             Ajouter une tache
-        </button>
-        <?php } ?>
+        </button>        
     </div>
 
     <div class="flex-fill w-100 m-5">
@@ -74,32 +150,39 @@ $utilisateurs = ListeUtilisateur();
                 <thead>
                 <th>Titre</th>
                 <th>Description</th>
+                <th>Élève</th>
                 <th></th>
                 </thead>
                 <tbody>
-                <?php foreach ($tache_fini
-
-                as $value) { ?>
-
-
-                <tr>
-                    <td>
-                        <?php echo $value[1]; ?>
-                    </td>
-                    <td>
-                        <?php echo $value[2]; ?>
-                    </td>
-                    <td>
-                        <a class="btn btn btn-warning" data-toggle="modal"
-                           data-target="#<?php echo 'modif_tahce_' . $value[0] ?>">Modifier</a>
-                    </td>
-                </tr>
+                <?php foreach ($tache_fini as $value) 
+                { ?>
+                    <tr>
+                        <td>
+                            <?php echo $value[1]; ?>
+                        </td>
+                        <td>
+                            <?php echo $value[2]; ?>
+                        </td>
+                        <td>
+                            <?php echo $value[3]; ?>
+                        </td>
+                        <td>
+                            <a class="btn btn btn-warning" data-toggle="modal"
+                            data-target="#<?php echo 'modif_tahce_' . $value[0] ?>">Modifier</a>
+                        </td>
+                    </tr>
                 <?php } ?>
                 </tbody>
             </table>
     </div>
 
 </div>
+<?php } ?>
+
+
+
+
+
 
 
 <!-- Formulaire d'ajout d'une tache -->
@@ -134,12 +217,12 @@ $utilisateurs = ListeUtilisateur();
                         <tr>
                             <td>Assigner un élèves</td>
                             <td>
-                                <select class="custom-select">
+                                <select class="custom-select" name="User">
+                                    <!-- Liste de tout les utilisateurs -->
                                 <?php foreach ($utilisateurs as $value) 
-                                {
-                                    echo '<option>';
-                                    echo $value[0] . " - " . $value[1];
-                                    echo '</option>';
+                                {?>
+                                    <option value = <?php echo $value[2] ?>><?php  echo $value[0] . " - " . $value[1];?></option>
+                                <?php  
                                 }
                                 ?>
                                 </select>
@@ -242,7 +325,6 @@ $utilisateurs = ListeUtilisateur();
         </div>
     </div>
 <?php } ?>
-
 <?php include '../Model/Footer.html'; ?>
 </body>
 </html>
