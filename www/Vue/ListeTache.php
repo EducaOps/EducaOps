@@ -18,7 +18,12 @@ $tache_eleve_fini =  TachesEleveFini($_SESSION['email']);
     <title>Liste des taches</title>
 </head>
 <body>
-<?php include '../Model/Header.php'; 
+<!--
+    Liste des taches pour un eleves.
+    Dans cete partie on retrouve les tableaux que seul
+    les eleves peuvent visualisers.
+--> 
+<?php include '../Model/Header.php';
 if($eleves)
 {?>
     <div class=" d-flex ">
@@ -94,7 +99,13 @@ if($eleves)
 if($professeur)
 {?>
 
-<!-- Liste des taches -->
+<!--
+    Liste des taches pour un professeur.
+    Dans cete partie on retrouve les tableaux que seul
+    les professeurs peuvent visualiser.
+    Les professeurs on des information supplimetaire en plus
+    comparer au tableau des éleves.
+-->
 <div class=" d-flex ">
     <div class="flex-fill w-100 m-5">
         <h1 class="" style="font-size: 45px; color: #f9a328;">Liste des taches en cours</h1>
