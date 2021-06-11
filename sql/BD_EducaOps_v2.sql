@@ -21,6 +21,9 @@ SET time_zone = "+00:00";
 -- Base de données : `BD_EducaOps`
 --
 
+CREATE DATABASE IF NOT EXISTS `BD_EducaOps` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `BD_EducaOps`;
+
 DELIMITER $$
 --
 -- Procédures
