@@ -1,6 +1,11 @@
 <?php
-include 'session.php';
+require "./Classe/ActionPage.php";
+use ActionPage\Action;
+
+$Action = new Action();
+$Action->RedirectToURL("Vue/ListeTache.php");
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,10 +16,6 @@ include 'session.php';
     <title>Document</title>
 </head>
 <body>
-    <h5>Salut</h5>
-    <?php
-        echo "Bonjour vous etes ?";
-        echo $_SESSION['email'];
-    ?>
+
 </body>
 </html>

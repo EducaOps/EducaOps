@@ -1,5 +1,17 @@
-<form action="../Controller/login_control.php" method="GET">
-    <input type="email" name="email" value="" alt="Renseigner votre email..." />
-    <input type="password" name="password" value="" alt="Renseigner votre mot de passe..." />
-    <input type="submit" />
-</form>
+<div class="shadow-lg p-4 bg-white">
+    <div class=" p-4 mx-auto text-center" style="width:350px">
+        <h4 class="p-0 m-0" style="color: #f9a328;">
+            <b>Bienvenue, vous pouvez vous connecter au site</b>
+        </h4>
+
+        <form class="mt-4" action="../Controller/login_control.php" method="GET">
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Adresse email " />
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Mot de passe"/>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Connexion"/>
+        </form>
+    </div>
+</div>
