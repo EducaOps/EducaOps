@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db
--- Généré le : dim. 16 mai 2021 à 13:58
+-- Généré le : sam. 05 juin 2021 à 19:47
 -- Version du serveur :  8.0.23
--- Version de PHP : 7.4.15
+-- Version de PHP : 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `BD_EducaOps`
 --
+
 CREATE DATABASE IF NOT EXISTS `BD_EducaOps` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `BD_EducaOps`;
 
@@ -28,7 +29,7 @@ DELIMITER $$
 -- Procédures
 --
 CREATE DEFINER=`root`@`%` PROCEDURE `GetUtilisateurEducaOps` ()  BEGIN
-    SELECT U.UtiNomComplet , RU.NomRole FROM Utilisateur U INNER JOIN RoleUtilisateur RU
+    SELECT U.UtiNomComplet , RU.NomRole, U.UtiEmail FROM Utilisateur U INNER JOIN RoleUtilisateur RU
 ON U.UtiRole = RU.IDRole;
 END$$
 
@@ -46,8 +47,11 @@ CREATE DEFINER=`root`@`%` PROCEDURE `GetVerifUtilisateurExist` (`EmailUtilisateu
             UtiMotDePasse = MotDePasse;
 END$$
 
-CREATE DEFINER=`root`@`%` PROCEDURE `Insertion_Tache` (IN `P_Titre_Tache` CHAR(40), `P_Description_Tache` CHAR(250), `P_Avancement_Tache` INT)  BEGIN
+CREATE DEFINER=`root`@`%` PROCEDURE `Insertion_Tache` (IN `P_Titre_Tache` CHAR(40), `P_Description_Tache` CHAR(250), `P_Avancement_Tache` INT, `P_ID_Mail` VARCHAR(100))  BEGIN
+DECLARE maxi int;
 INSERT INTO tache (Titre_Tache, Description_Tache, Avancement_Tache) VALUES (P_Titre_Tache, P_Description_Tache, P_Avancement_Tache);
+select max(ID_Tache) into maxi from tache;
+insert into Assigner(UtiEmail, IdTache) values (P_ID_Mail, maxi);
 END$$
 
 CREATE DEFINER=`root`@`%` PROCEDURE `Modification_Tache` (IN `P_ID_Tache` INT, `P_Titre_Tache` CHAR(40), `P_Description_Tache` CHAR(250), `P_Avancement_Tache` INT)  BEGIN
@@ -63,12 +67,30 @@ CREATE DEFINER=`root`@`%` PROCEDURE `Supression_Tache` (IN `P_ID_Tache` INT)  BE
 DELETE From tache WHERE ID_Tache = P_ID_Tache;
 END$$
 
+CREATE DEFINER=`root`@`%` PROCEDURE `TacheEnCourDeEleve` (IN `P_ID_Mail` VARCHAR(100))  BEGIN
+SELECT ID_Tache, Titre_Tache, Description_Tache 
+FROM tache INNER JOIN Assigner on tache.ID_Tache = Assigner.IdTache
+where Avancement_Tache = 0 and UtiEMail = P_ID_Mail;
+END$$
+
+CREATE DEFINER=`root`@`%` PROCEDURE `TacheFiniDeEleve` (IN `P_ID_Mail` VARCHAR(100))  BEGIN
+SELECT ID_Tache, Titre_Tache, Description_Tache 
+FROM tache INNER JOIN Assigner on tache.ID_Tache = Assigner.IdTache
+where Avancement_Tache = 1 and UtiEMail = P_ID_Mail;
+END$$
+
 CREATE DEFINER=`root`@`%` PROCEDURE `Tache_En_Cour` ()  BEGIN
-SELECT ID_Tache, Titre_Tache, Description_Tache FROM tache where Avancement_Tache = 0;
+SELECT tache.ID_Tache, tache.Titre_Tache, tache.Description_Tache, Utilisateur.UtiNomComplet
+FROM tache LEFT JOIN Assigner on tache.ID_Tache = Assigner.IdTache
+LEFT JOIN Utilisateur ON Assigner.UtiEmail = Utilisateur.UtiEmail
+where Avancement_Tache = 0;
 END$$
 
 CREATE DEFINER=`root`@`%` PROCEDURE `Tache_Fini` ()  BEGIN
-SELECT ID_Tache, Titre_Tache, Description_Tache FROM tache where Avancement_Tache = 1;
+SELECT tache.ID_Tache, tache.Titre_Tache, tache.Description_Tache, Utilisateur.UtiNomComplet
+FROM tache LEFT JOIN Assigner on tache.ID_Tache = Assigner.IdTache
+LEFT JOIN Utilisateur ON Assigner.UtiEmail = Utilisateur.UtiEmail
+where Avancement_Tache = 1;
 END$$
 
 DELIMITER ;
@@ -83,6 +105,18 @@ CREATE TABLE `Assigner` (
   `UtiEmail` varchar(100) NOT NULL,
   `IdTache` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `Assigner`
+--
+
+INSERT INTO `Assigner` (`UtiEmail`, `IdTache`) VALUES
+('Eleve@eleve.eleve', 21),
+('Eleve@eleve.eleve', 22),
+('Eleve@eleve.eleve', 24),
+('elevedeux@eleve.eleve', 31),
+('Eleve@eleve.eleve', 38),
+('elevedeux@eleve.eleve', 39);
 
 -- --------------------------------------------------------
 
@@ -122,13 +156,12 @@ CREATE TABLE `tache` (
 --
 
 INSERT INTO `tache` (`ID_Tache`, `Titre_Tache`, `Description_Tache`, `Avancement_Tache`) VALUES
-(20, 'Une nouvelle taches pour l\'utilisateur', 'Bienvenue sur cette tache', 0),
 (21, 'C\'est juste une idée', 'Bienvenue pour cette idée', 0),
 (22, 'Encore un bug', 'Le bug doit étres résolu', 0),
 (24, 'Faire un MCD', 'Compléter la description avec un MLD', 1),
-(25, 'Faire un devis pour des serveurs', 'Il nous faut un serveur capable d\'utiliser des technologie web et des base de données relationnel c\'est comme ça que sa marche bien', 0),
-(26, 'Finir la documentation technique', 'La doc et bien finie', 1),
-(27, 'Faire une maquette du projet', 'Maquette OK', 1);
+(31, 'Créer une doc utilisateur', 'Creation de la doc avec plusieurs scénarios possibles', 0),
+(38, 'Ajout formulaire modification', 'ajout d\'un formulaire de modification d\'une tache', 0),
+(39, 'Créer un git pour le projet', 'Creation du repo git avec les droits des utils', 1);
 
 -- --------------------------------------------------------
 
@@ -148,7 +181,12 @@ CREATE TABLE `Utilisateur` (
 --
 
 INSERT INTO `Utilisateur` (`UtiNomComplet`, `UtiRole`, `UtiEmail`, `UtiMotDePasse`) VALUES
-('AntoninL', 0, 'antonin.lemoine@gmail.com', '123');
+('admin', 0, 'admin@admin.admin', 'admin'),
+('Eleve', 2, 'Eleve@eleve.eleve', 'eleve'),
+('elevedeux', 2, 'elevedeux@eleve.eleve', 'eleve'),
+('elevesanstaches', 2, 'elevestache@eleve.eleve', 'eleve'),
+('prof', 1, 'prof@prof.prof', 'prof'),
+('Thibaud LEJEUNE', 0, 'toto@toto.toto', 'toto');
 
 --
 -- Index pour les tables déchargées
@@ -194,7 +232,7 @@ ALTER TABLE `RoleUtilisateur`
 -- AUTO_INCREMENT pour la table `tache`
 --
 ALTER TABLE `tache`
-  MODIFY `ID_Tache` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `ID_Tache` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- Contraintes pour les tables déchargées
@@ -204,7 +242,7 @@ ALTER TABLE `tache`
 -- Contraintes pour la table `Assigner`
 --
 ALTER TABLE `Assigner`
-  ADD CONSTRAINT `FK_ASSIGNER_TACHE` FOREIGN KEY (`IdTache`) REFERENCES `tache` (`ID_Tache`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_ASSIGNER_TACHE` FOREIGN KEY (`IdTache`) REFERENCES `tache` (`ID_Tache`) ON DELETE CASCADE ON UPDATE RESTRICT,
   ADD CONSTRAINT `FK_ASSIGNER_UTILISATEUR` FOREIGN KEY (`UtiEmail`) REFERENCES `Utilisateur` (`UtiEmail`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
