@@ -12,12 +12,12 @@ docker-compose up
 ```
 
 Vous pourrez ensuite accéder aux pages suivantes :
-* phpMyAdmin => http://localhost/:90
-* EducaOps => http://localhost/:80
+* phpMyAdmin => http://localhost:90
+* EducaOps => http://localhost:80
 
 
 ### Installation de la base de données
-Accéder a votre base de données MySQL a travers la platforme phpMyAdmin précédement installé via : http://localhost/:90.
+Accéder a votre base de données MySQL a travers la platforme phpMyAdmin précédement installé via : http://localhost:90.
 
 Pour vous connecter au SGBD utiliser les identifiants suivant :
 ```
@@ -31,7 +31,7 @@ Pour importer la base de données EducaOps vous devez suivre ce chemin
 -> Puis choisir un fichier (sql/BD_EducaOps.sql) et exécuté en bas à droite de l'écran
 ```
 
-Une fois la base de données inseré vous pouvez vous connecter au site <b> Educaops</b> via le lien suivant : http://localhost/:80.
+Une fois la base de données inseré vous pouvez vous connecter au site <b> Educaops</b> via le lien suivant : http://localhost:80.
 
 ## S'indentifier à la platforme EducaOps
 Pour ce connecter à la platforme plusieurs identifiants exist.
