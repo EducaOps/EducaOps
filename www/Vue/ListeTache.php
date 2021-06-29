@@ -65,24 +65,23 @@ if($eleves)
     <div class="flex-fill w-100 m-5">
         <h1 class=" text-success" style="font-size: 45px;">Liste des taches terminées</h1>
         <div class="mt-2 alert alert-success p-1">
-            <?php echo "Nombre de taches en terminées : <b>" .  CountEleveFini($_SESSION['email']) . "</b>" ?>
+            <?php echo "Nombre de taches en terminées : <b>" .  CountEleveFini($_SESSION['email']) . "</b>"; ?>
                 </div>
-            <table class="table table-striped ">
+            <table class="table table-striped">
                 <thead>
                 <th>Titre</th>
                 <th>Description</th>
                 <th></th>
                 </thead>
                 <tbody>
-                <?php foreach ($tache_eleve_fini as $value) 
-                { ?>
+                <?php foreach ($tache_eleve_fini as $value) { ?>
                     <tr>
                         <td>
                             <?php echo $value[1]; ?>
                         </td>
                         <td>
                             <?php echo $value[2]; ?>
-                        </td>>
+                        </td>
                         <td>
                             <a class="btn btn btn-warning" data-toggle="modal"
                             data-target="#<?php echo 'modif_tahce_' . $value[0] ?>">Modifier</a>
